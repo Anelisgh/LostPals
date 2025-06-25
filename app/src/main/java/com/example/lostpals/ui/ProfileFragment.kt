@@ -17,6 +17,7 @@ import com.example.lostpals.util.SessionManager
 import com.example.lostpals.viewmodel.AuthViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import androidx.lifecycle.MutableLiveData
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
