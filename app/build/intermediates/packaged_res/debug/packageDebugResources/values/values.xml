@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#ECF2F3</color>
+    <color name="black">#FF000000</color>
+    <color name="error">#800020</color>
+    <color name="fab_selected">#c0c8ce</color>
+    <color name="form">#80FFFFFF</color>
+    <color name="green">#008000</color>
+    <color name="grey">#708090</color>
+    <color name="ic_launcher_background">#ECEFF1</color>
+    <color name="light_grey">#c8ced5</color>
+    <color name="lp_bg">#F3F8F9</color>
+    <color name="lp_primary">#C7D9DD</color>
+    <color name="lp_primary_dark">#89A3A6</color>
+    <color name="lp_red_end">#DC143C</color>
+    <color name="lp_red_start">#B22222</color>
+    <color name="lp_text">#001722</color>
+    <color name="primary">#C7D9DD</color>
+    <color name="stroke">#E0E0E0</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="account">account</string>
+    <string name="app_name">LostPals</string>
+    <string name="avatar">Users avatar</string>
+    <string name="btn_login">Sign in</string>
+    <string name="btn_sign_up">Sign Up</string>
+    <string name="change_email_note">Change your e-mail address</string>
+    <string name="change_password_note">Change your password</string>
+    <string name="create_post">create_post</string>
+    <string name="current_email">Current e-mail</string>
+    <string name="current_password">Current password</string>
+    <string name="delete_account">Delete account</string>
+    <string name="delete_account_confirmation">Are you sure you want to delete your account? This action cannot be undone.</string>
+    <string name="email">Email</string>
+    <string name="filter">filter</string>
+    <string name="inbox">inbox</string>
+    <string name="label_confirm_password">Confirm Password</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="label_username">Username</string>
+    <string name="leave_blank">Leave blank to keep unchanged</string>
+    <string name="link_login">Already have an account? Login</string>
+    <string name="link_register">Don\'t have an account? Register</string>
+    <string name="login_title">Login</string>
+    <string name="logout">Logout</string>
+    <string name="name">Name</string>
+    <string name="new_email_optional">New e-mail</string>
+    <string name="new_password_optional">New password</string>
+    <string name="profile_title">Profile</string>
+    <string name="register_title">Register</string>
+    <string name="save">Save</string>
+    <string name="username_placeholder">username</string>
+    <string name="welcome_back_title">Welcome back to</string>
+    <string name="welcome_lostpals">LostPals!</string>
+    <string name="welcome_sub">Did you lost an item?\nLet our community help you find it!</string>
+    <string name="welcome_title">Welcome to</string>
+    <style name="Base.Theme.LostPals" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        
+    </style>
+    <style name="Theme.LostPals" parent="Base.Theme.LostPals"/>
+</resources>

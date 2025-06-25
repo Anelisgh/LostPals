@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<!--Stare activa, adica filtrele sunt aplicate-->
+    <item android:color="@color/primary" android:state_selected="true"/>
+<!--Starea normala, fara filtre-->
+    <item android:color="@color/white"/>
+</selector>
