@@ -53,6 +53,12 @@ class MainActivity : AppCompatActivity() {
         // initiam NavController-ul
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+        val toolbarRoot = findViewById<View>(R.id.menu)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            toolbarRoot.visibility =
+                if (destination.id == R.id.chatFragment) View.GONE
+                else View.VISIBLE
+        }
         // cream conexiunea la baza de date si cream repositories
         val database = AppDatabase.getDatabase(this)
         postRepository = PostRepository(

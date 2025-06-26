@@ -16,8 +16,13 @@ import java.util.Currency
 import java.util.Date
 import java.util.Locale
 
-class PostAdapter(private var posts: List<PostDisplayDto>) :
+class PostAdapter(private var posts: List<PostDisplayDto>, private val currentUserId: Long, private val listener: OnChatClickListener) :
     RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+    // listener
+    interface OnChatClickListener {
+        fun onChatClicked(post: PostDisplayDto)
+    }
+
     // formator pentru currency
     private val currencyFormat = NumberFormat.getCurrencyInstance().apply {
         maximumFractionDigits = 2
@@ -69,6 +74,11 @@ class PostAdapter(private var posts: List<PostDisplayDto>) :
 
             timestamp.text = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
                 .format(Date(post.timestamp))
+
+            btnChat.visibility =
+                if (post.ownerId == currentUserId) View.GONE else View.VISIBLE
+
+            btnChat.setOnClickListener { listener.onChatClicked(post) }
         }
     }
 

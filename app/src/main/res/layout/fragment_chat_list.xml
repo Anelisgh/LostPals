@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3F7F8">
+
+    <!-- Toolbar personalizat -->
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#d7e5eb"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LostPals"
+            android:textStyle="bold"
+            android:textSize="32sp"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            />
+
+        <!-- Icon 1: edit (pencil) -->
+        <ImageView
+            android:id="@+id/iconEdit"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/edit"
+            android:layout_marginEnd="12dp"/>
+
+        <!-- Icon 2: inbox/message -->
+        <ImageView
+            android:id="@+id/iconInbox"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/inbox"
+            android:layout_marginEnd="12dp"/>
+
+        <!-- Icon 3: profil -->
+        <ImageView
+            android:id="@+id/iconProfile"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/account"
+            android:layout_marginEnd="12dp"/>
+    </LinearLayout>
+
+    <!-- RecyclerView pentru lista DM-uri -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerChats"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

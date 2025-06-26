@@ -28,7 +28,6 @@ class CreatePostFragment : Fragment() {
     private lateinit var postViewModel: PostViewModel
     private var selectedImageUri: Uri? = null
 
-    // se apeleaza cand utilizatorul selecteaza o imagine din galerie si o afiseaza in preview
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
@@ -48,22 +47,33 @@ class CreatePostFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Inițializare SessionManager
         sessionManager = SessionManager(requireContext())
+
+        // Inițializare ViewModel
         postViewModel = ViewModelProvider(requireActivity())[PostViewModel::class.java]
-        postViewModel.clearCreatePostResult()
-        // adaugam un ascultator care va fi notificat de fiecare data cand se schimba dimensiunile spatiului ocupat de ferestrele de sistem (adica bare de status, nativatie)
+
+        // Gestionare WindowInsets (adaptare la bara de sistem)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Inițializare componente UI
         setupSpinners()
         setupListeners()
+
+        // Observare rezultat creare post
         observeCreatePostResult()
     }
 
     private fun observeCreatePostResult() {
         postViewModel.createPostResult.observe(viewLifecycleOwner) { resource ->
+            // Adaugă această verificare pentru null
+            if (resource == null) return@observe
+
             when (resource) {
                 is Resource.Success -> {
                     Toast.makeText(
@@ -73,6 +83,7 @@ class CreatePostFragment : Fragment() {
                     ).show()
                     resetForm()
                     postViewModel.clearCreatePostResult()
+                    // Mută navigația după clear
                     findNavController().popBackStack()
                 }
                 is Resource.Error -> {
@@ -87,53 +98,69 @@ class CreatePostFragment : Fragment() {
         }
     }
 
-// configurarea dropdown-urilor
     private fun setupSpinners() {
-        // location
-        val locationDisplayNames = Location.entries.map { it.displayName }
+        // Location spinner with "Select location" as first item
+        val locations = listOf("Select location") + Location.entries.map { it.displayName }
         binding.spinnerLocation.adapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_item, locationDisplayNames
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            locations
         ).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
-        // objectType
-        val objectTypeDisplayNames = ObjectType.entries.map { it.displayName }
+
+        // ObjectType spinner
+        val objectTypes = ObjectType.entries.map { it.displayName }
         binding.spinnerObjectType.adapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_item, objectTypeDisplayNames
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            objectTypes
         ).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
     }
-// configurarea butoanelor
+
     private fun setupListeners() {
-        // selectarea imaginii
         binding.btnUploadPhoto.setOnClickListener {
             pickImageLauncher.launch("image/*")
         }
-        // crearea postarii
+
         binding.btnCreatePost.setOnClickListener {
             createNewPost()
         }
     }
-// crearea unei postari noi
+
     private fun createNewPost() {
-    // preluam datele din formular
         val title = binding.etTitle.text.toString().trim()
         val description = binding.etDescription.text.toString().trim()
-        val rewardText = binding.etReward.text.toString().trim()
-        val reward = rewardText.replace(',', '.').toDoubleOrNull()
-    // verificam daca datele sunt valide
+
         if (title.isBlank() || description.isBlank()) {
             Toast.makeText(
-                requireContext(), "Title and description are required", Toast.LENGTH_SHORT
+                requireContext(),
+                "Title and description are required",
+                Toast.LENGTH_SHORT
             ).show()
             return
         }
-    // preluam datele din dropdown-uri
-        val location = Location.entries[binding.spinnerLocation.selectedItemPosition]
+
+        // Verify location selection
+        if (binding.spinnerLocation.selectedItemPosition == 0) {
+            Toast.makeText(
+                requireContext(),
+                "Please select a location",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        // Get selected location (subtract 1 to account for the "Select location" item)
+        val location = Location.entries[binding.spinnerLocation.selectedItemPosition - 1]
         val objectType = ObjectType.entries[binding.spinnerObjectType.selectedItemPosition]
+
+        val rewardText = binding.etReward.text.toString().trim()
+        val reward = rewardText.replace(',', '.').toDoubleOrNull()
         val userId = sessionManager.getUserId()
-    // cream obiectul postDto
+
         val postDto = PostDto(
             ownerId = userId,
             title = title,
@@ -143,20 +170,20 @@ class CreatePostFragment : Fragment() {
             photoUri = selectedImageUri?.toString(),
             reward = reward
         )
-    // trimitem postarea la db
+
         postViewModel.createPost(postDto)
     }
-// golim campurile
+
     private fun resetForm() {
         binding.etTitle.text?.clear()
         binding.etDescription.text?.clear()
         binding.etReward.text?.clear()
         binding.ivPreview.visibility = View.GONE
         selectedImageUri = null
-        binding.spinnerLocation.setSelection(0)
+        binding.spinnerLocation.setSelection(0) // Reset to "Select location"
         binding.spinnerObjectType.setSelection(0)
     }
-// pentru evitarea memory leaks
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

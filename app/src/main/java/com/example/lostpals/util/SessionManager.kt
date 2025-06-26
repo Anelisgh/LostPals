@@ -3,6 +3,7 @@ package com.example.lostpals.util
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import android.util.Log
 
 class SessionManager(context: Context) {
     private val prefs: SharedPreferences =
@@ -19,8 +20,11 @@ class SessionManager(context: Context) {
     }
 
     fun getUserId(): Long {
-        return prefs.getLong(KEY_USER_ID, -1) // -1 adica niciun user
+        val id = prefs.getLong(KEY_USER_ID, -1)
+        Log.d("SessionManager", "getUserId() = $id")
+        return id
     }
+
 
     fun saveUsername(name: String) {
         prefs.edit { putString(KEY_USERNAME, name) }

@@ -42,5 +42,6 @@ enum class Location(val displayName: String) {
     TULCEA("Tulcea"),
     VALCEA("Vâlcea"),
     VASLUI("Vaslui"),
-    VRANCEA("Vrancea")
+    VRANCEA("Vrancea"),
+    UNKNOWN("UNKNOWN")
 }

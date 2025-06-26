@@ -48,6 +48,16 @@
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:textColor="@color/grey"/>
+
+            <ImageButton
+                android:id="@+id/btnChat"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/chat"
+            android:contentDescription="@string/open_chat"/>
+
         </LinearLayout>
         <!-- Titlu și descriere -->
         <TextView

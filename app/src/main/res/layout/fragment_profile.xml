@@ -6,15 +6,23 @@
     android:layout_height="match_parent"
     android:background="@color/lp_bg">
 
-    <!-- ─── CONȚINUT SCROLLABIL ───────────────────────────────── -->
+    <!-- Toolbarul personalizat -->
+    <include
+        android:id="@+id/profileToolbar"
+        layout="@layout/menu_profile"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Conținutul scrollabil sub toolbar -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/profileToolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -123,7 +131,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="24dp">
+                    android:padding="24dp"
+                    android:paddingBottom="48dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -175,15 +184,15 @@
             </com.google.android.material.card.MaterialCardView>
 
             <!-- LOGOUT -->
-            <TextView
-                android:id="@+id/btnLogout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/logout"
-                android:textColor="@color/lp_primary_dark"
-                android:textSize="16sp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="sans-serif-medium"/>
+<!--            <TextView-->
+<!--                android:id="@+id/btnLogout"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/logout"-->
+<!--                android:textColor="@color/lp_primary_dark"-->
+<!--                android:textSize="16sp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:fontFamily="sans-serif-medium"/>-->
 
             <!-- DELETE ACCOUNT -->
             <com.google.android.material.button.MaterialButton
@@ -193,6 +202,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginStart="36dp"
                 android:layout_marginEnd="36dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/delete_account"
                 android:textColor="@color/lp_text"
                 android:background="@drawable/selector_button_delete"

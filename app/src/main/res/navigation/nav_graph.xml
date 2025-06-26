@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_homeFragment_to_createPostFragment"
             app:destination="@id/createPostFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_inboxFragment"
+            app:destination="@id/inboxFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
 
     <fragment
@@ -25,6 +31,32 @@
         android:id="@+id/profileFragment"
         android:name="com.example.lostpals.ui.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profile_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.lostpals.ui.ChatFragment"
+        tools:layout="@layout/fragment_chat">
+        <argument
+            android:name="otherId"
+            app:argType="long" />
+        <argument
+            android:name="partnerName"
+            app:argType="string"
+            android:defaultValue="unknown" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/inboxFragment"
+        android:name="com.example.lostpals.ui.InboxFragment"
+        tools:layout="@layout/fragment_inbox">
+        <action
+            android:id="@+id/action_inboxFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
 
 </navigation>

@@ -1,6 +1,7 @@
 package com.example.lostpals.data.mapper
 
 import com.example.lostpals.data.dto.PostDto
+import com.example.lostpals.data.entity.Location
 import com.example.lostpals.data.entity.Post
 
 fun PostDto.toEntity() = Post(
@@ -8,7 +9,7 @@ fun PostDto.toEntity() = Post(
     ownerId = ownerId,
     title = title,
     description = description,
-    location = location,
+    location    = location,
     objectType = objectType,
     postType = postType,
     photoUri = photoUri,

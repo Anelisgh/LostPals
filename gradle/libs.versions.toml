@@ -2,7 +2,7 @@
 # NU modificam versiunile, pentru ca vor exista erori!
 agp = "8.10.1"
 bcrypt = "0.10.2"
-kotlin = "1.9.10"
+kotlin = "2.0.0" #din 1.9.10 -> 2.1.10 deoarece aveam o eroare
 coreKtx = "1.10.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -15,10 +15,12 @@ navigationFragmentKtx = "2.9.0"
 room = "2.5.2"
 lifecycle = "2.6.1"
 coroutines = "1.7.3"
-ksp = "1.9.10-1.0.13"
+ksp = "2.0.0-1.0.22"        # "1.9.10-1.0.13"
 glide = "4.16.0"
 navigationUiKtx = "2.9.0"
 circleimageview = "3.1.0"
+fragment = "1.8.8"
+sqliteAndroid = "2.5.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core",           name = "core-ktx",               version.ref = "coreKtx" }
@@ -42,6 +44,8 @@ glideCompiler = { group = "com.github.bumptech.glide", name = "compiler", versio
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 material3 = "com.google.android.material:material:1.9.0"
+fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment" }
+androidx-sqlite-android = { group = "androidx.sqlite", name = "sqlite-android", version.ref = "sqliteAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application",        version.ref = "agp" }

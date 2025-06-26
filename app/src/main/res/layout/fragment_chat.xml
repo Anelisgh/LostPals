@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EAF2F4"
+>
+    <LinearLayout
+        android:id="@+id/chatToolbar"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="#C7D7DC"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical">
+        <!-- buton pentru navigare inapoi -->
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/back"
+            android:contentDescription="@string/back_button_desc"
+            android:background="@android:color/transparent"/>
+        <!-- imagine avatar pentru partenerul de chat -->
+        <ImageView
+            android:id="@+id/avatarImage"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/avatar"
+            android:contentDescription="@string/avatar_desc"/>
+        <!-- text view pentru afisare username -->
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+    <!-- text view pentru afisarea datei conversatiei -->
+    <TextView
+        android:id="@+id/messageDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/message_date_format"
+        android:textColor="#B0B0B0"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/chatToolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <!-- recycler view pentru lista de mesaje -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMessages"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/messageDate"
+        app:layout_constraintBottom_toTopOf="@id/messageBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <!-- bara de scris si trimitere mesaj -->
+    <LinearLayout
+        android:id="@+id/messageBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/lp_bg"
+        android:padding="15dp"
+
+        android:layout_marginBottom="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/attachButton"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/attach"
+            android:contentDescription="@string/attach_button_desc"
+            android:background="@android:color/transparent"/>
+
+        <EditText
+            android:id="@+id/messageInput"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/message_hint"
+            android:paddingStart="8dp"
+            android:textSize="16sp"
+            android:inputType="text"/>
+
+        <ImageView
+            android:id="@+id/sendButton"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/send"
+            android:contentDescription="@string/send_button_desc"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

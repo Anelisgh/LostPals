@@ -17,5 +17,5 @@
     <color name="lp_bg">#F3F8F9</color>               <!-- background -->
     <color name="lp_text">#001722</color>             <!-- aproape negru -->
     <color name="lp_red_start">#B22222</color>        <!-- gradient delete -->
-    <color name="lp_red_end">#DC143C</color>
+    <color name="lp_red_end">#FFCDD2</color>
 </resources>

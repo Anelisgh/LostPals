@@ -5,48 +5,60 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.example.lostpals.data.dto.InboxConversationData
 import com.example.lostpals.data.entity.Message
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MessageDao {
+
     @Insert
     suspend fun insert(message: Message): Long
 
-    @Query("SELECT * FROM messages WHERE postId = :postId")
-    suspend fun getMessagesForPost(postId: Long): List<Message>
+    /*-----------------------------  POST -----------------------------*/
+
+    @Query("SELECT * FROM messages WHERE postId = :postId ORDER BY timestamp")
+    fun getMessagesForPost(postId: Long): Flow<List<Message>>
+
+    /*--------------------------  CONVERSATION ------------------------*/
 
     @Query(
         """
-    SELECT * FROM messages 
-    WHERE ((senderId = :meId AND receiverId = :otherId) 
-    OR (senderId = :otherId AND receiverId = :meId)) 
-    AND postId = :postId 
-    ORDER BY timestamp ASC
-"""
+        SELECT * FROM messages
+        WHERE (senderId = :meId AND receiverId = :otherId)
+            OR (senderId = :otherId AND receiverId = :meId)
+        ORDER BY timestamp
+        """
     )
-    suspend fun getMessagesForConversation(meId: Long, otherId: Long, postId: Long): List<Message>
+    fun getMessagesForConversation(
+        meId: Long,
+        otherId: Long,
+    ): Flow<List<Message>>
 
-    // pentru inbox
+    /*-----------------------------  INBOX ----------------------------*/
+
     @Query(
-        """SELECT m.*, otherUser.username, otherUser.photoUri AS userPhotoUri
+        """
+    SELECT m.*, 
+           otherUser.username, 
+           otherUser.photoUri AS userPhotoUri
     FROM messages m
-    INNER JOIN users otherUser ON
-        (CASE 
-            WHEN m.senderId = :userId THEN otherUser.id = m.receiverId
-            ELSE otherUser.id = m.senderId
-        END)
+    INNER JOIN users otherUser 
+           ON otherUser.id = 
+                CASE 
+                    WHEN m.senderId = :userId THEN m.receiverId 
+                    ELSE m.senderId 
+                END
     WHERE (m.senderId = :userId OR m.receiverId = :userId)
       AND m.timestamp = (
-        SELECT MAX(latestMessage.timestamp)
-        FROM messages latestMessage
-        WHERE (
-            (latestMessage.senderId = :userId AND latestMessage.receiverId = 
-                CASE WHEN m.senderId = :userId THEN m.receiverId ELSE m.senderId END)
-            OR
-            (latestMessage.receiverId = :userId AND latestMessage.senderId = 
-                CASE WHEN m.senderId = :userId THEN m.receiverId ELSE m.senderId END)
-        )
+            SELECT MAX(timestamp)
+            FROM messages
+            WHERE (
+                     (senderId = m.senderId AND receiverId = m.receiverId)
+                  OR (senderId = m.receiverId AND receiverId = m.senderId)
+                  )
+      )
+    ORDER BY m.timestamp DESC
+    """
     )
-    ORDER BY m.timestamp DESC"""
-    )
-    suspend fun getInboxConversations(userId: Long): List<InboxConversationData>
+    fun getInboxConversations(userId: Long): Flow<List<InboxConversationData>>
+
 }

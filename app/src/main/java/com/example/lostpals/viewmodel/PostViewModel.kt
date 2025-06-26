@@ -21,8 +21,8 @@ class PostViewModel(private val postRepository: PostRepository) : ViewModel() {
     private val _posts = MutableLiveData<Resource<List<PostDisplayDto>>>()
     val posts: LiveData<Resource<List<PostDisplayDto>>> get() = _posts
 
-    private val _createPostResult = MutableLiveData<Resource<Long>>()
-    val createPostResult: LiveData<Resource<Long>> get() = _createPostResult
+    private val _createPostResult = MutableLiveData<Resource<Long>?>() // Adaugă `?` pentru nullable
+    val createPostResult: LiveData<Resource<Long>?> get() = _createPostResult // Actualizează și getter-ul
 // incarca postarile automat cand se creeaza viewModel
     init {
         loadPosts(null)

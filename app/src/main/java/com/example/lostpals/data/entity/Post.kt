@@ -18,7 +18,7 @@ data class Post(
     val ownerId: Long,
     val title: String,
     val description: String,
-    val location: Location,
+    val location: Location = Location.UNKNOWN,
     val objectType: ObjectType = ObjectType.OTHER,
     val postType: PostType = PostType.LOST,
     val photoUri: String? = null,

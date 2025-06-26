@@ -1,26 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- Stare apăsată (pressed) -->
-    <item android:state_pressed="true">
-        <shape>
-            <!-- fundal roz puțin mai închis -->
-            <solid android:color="#F5A5B7"/>
-            <!-- contur roșu închis -->
-            <stroke android:width="2dp" android:color="#8B0000"/>
-            <corners android:radius="24dp"/>
-        </shape>
-    </item>
-
-    <!-- Stare normală -->
-    <item>
-        <shape>
-            <!-- fundal roz pal -->
-            <solid android:color="#F8BBD0"/>
-            <!-- contur roșu închis -->
-            <stroke android:width="2dp" android:color="#8B0000"/>
-            <corners android:radius="24dp"/>
-        </shape>
-    </item>
-
+    <item android:state_pressed="true"
+        android:drawable="@drawable/bg_button_delete_pressed"/>
+    <item android:drawable="@drawable/bg_button_delete"/>
 </selector>

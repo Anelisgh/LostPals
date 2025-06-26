@@ -1,0 +1,7 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- culoare de fundal pentru bula utilizatorului -->
+    <solid android:color="#FFFFFF"/>
+    <!-- colturi rotunjite -->
+    <corners android:radius="18dp"/>
+</shape>

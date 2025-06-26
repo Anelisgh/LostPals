@@ -8,11 +8,22 @@ import com.example.lostpals.data.dto.PostFilterDto
 import com.example.lostpals.data.entity.PostType
 import com.example.lostpals.data.mapper.toDto
 import com.example.lostpals.data.mapper.toEntity
+import com.example.lostpals.data.entity.Location
 
 class PostRepository(
     private val postDao: PostDao, private val userDao: UserDao
 ) {
-    suspend fun createPost(postDto: PostDto): Long = postDao.insert(postDto.toEntity())
+    suspend fun createPost(postDto: PostDto): Long {
+        println("DEBUG: PostDto location before insert = ${postDto.location}") // Loghează valoarea
+        return try {
+            val entity = postDto.toEntity()
+            println("DEBUG: Post entity location = ${entity.location}") // Verifică înainte de insert
+            postDao.insert(entity)
+        } catch (e: Exception) {
+            println("ERROR: Failed to insert post: ${e.message}") // Log detaliat
+            throw RuntimeException("Failed to insert post. Location: ${postDto.location}", e)
+        }
+    }
 
     suspend fun updatePost(postDto: PostDto) {
         postDao.updatePost(postDto.toEntity())

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -18,7 +19,11 @@ import com.example.lostpals.ui.adapters.PostAdapter
 import com.example.lostpals.viewmodel.PostViewModel
 import com.example.lostpals.util.Resource
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
+import com.example.lostpals.R
+import com.example.lostpals.data.dto.PostDisplayDto
+import com.example.lostpals.util.SessionManager
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -37,6 +42,13 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         filterFab = binding.filterIcon
+        val inboxIcon = requireActivity().findViewById<ImageView>(R.id.Inbox)
+
+        inboxIcon.setOnClickListener {
+            val dir = HomeFragmentDirections.actionHomeFragmentToInboxFragment()
+            findNavController().navigate(dir)
+        }
+
         filterFab.setOnClickListener {
             (activity as? MainActivity)?.showFilterDialog()
         }
@@ -58,7 +70,28 @@ class HomeFragment : Fragment() {
         }
 
         postViewModel = ViewModelProvider(requireActivity())[PostViewModel::class.java]
-        postAdapter = PostAdapter(emptyList())
+
+        val currentUserId = SessionManager(requireContext()).getUserId()
+
+        postAdapter = PostAdapter(
+            emptyList(),
+            currentUserId,
+            object : PostAdapter.OnChatClickListener {
+                override fun onChatClicked(post: PostDisplayDto) {
+                    if (post.ownerId == currentUserId) {
+                        Toast.makeText(requireContext(),
+                            "You can't send messages to yourself", Toast.LENGTH_SHORT).show()
+                        return
+                    }
+                    val dir = HomeFragmentDirections
+                        .actionHomeFragmentToChatFragment(
+                            otherId     = post.ownerId,
+                            partnerName = post.ownerUsername
+                        )
+                    findNavController().navigate(dir)
+                }
+            }
+        )
 
         binding.recyclerViewPosts.apply {
             layoutManager = LinearLayoutManager(context)
@@ -85,7 +118,7 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-// este atent la modificarile filtrului si actualizeaza fab-ul in consecinta
+
         postViewModel.filter.observe(viewLifecycleOwner) { filter ->
             updateFilterFabState(filter)
         }
