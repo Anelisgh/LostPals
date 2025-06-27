@@ -41,20 +41,6 @@ abstract class AppDatabase : RoomDatabase() {
                 )
                     .addTypeConverter(Converters()) // conecteaza bd cu metodele de conversie
 
-                    // se apeleaza doar la prima creare a bd
-                    // introduce un post cu id 0
-                    .addCallback(object : RoomDatabase.Callback() {
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            db.execSQL(
-                                """
-                                INSERT INTO posts
-                                    (id, title, description, photoUri, ownerId, timestamp, location, objectType, postType)
-                                VALUES (0, 'general', '', NULL, 0, 0, 'UNKNOWN', 'OTHER', 'LOST')
-                                """.trimIndent()
-                            )
-                        }
-                    })
-
                     // daca se schimba bd fara sa se defineasca manual cum se face migrarea => aceasta se recreeaza sau se sterge
                     .fallbackToDestructiveMigration()
                     .build()
