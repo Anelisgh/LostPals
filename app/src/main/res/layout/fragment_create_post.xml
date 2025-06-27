@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- ecran de creare post nou cu campuri si buton submit -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -15,6 +17,7 @@
         android:paddingTop="0dp"
         android:paddingBottom="16dp">
 
+        <!-- titlu sectiune -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,6 +36,7 @@
             android:textStyle="bold"
             android:layout_marginBottom="4dp"/>
 
+        <!-- camp titlu -->
         <EditText
             android:id="@+id/etTitle"
             android:layout_width="match_parent"
@@ -44,6 +48,7 @@
             android:textSize="14sp"
             android:layout_marginBottom="16dp"/>
 
+        <!-- camp descriere -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,6 +69,7 @@
             android:textSize="14sp"
             android:layout_marginBottom="16dp"/>
 
+        <!-- spinner locatie si tip obiect -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,6 +100,7 @@
             android:background="@drawable/spinner_background"
             android:layout_marginBottom="16dp"/>
 
+        <!-- input optional recompensa -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,6 +120,7 @@
             android:textSize="14sp"
             android:layout_marginBottom="16dp"/>
 
+        <!-- zona pentru upload imagine -->
         <LinearLayout
             android:id="@+id/btnUploadPhoto"
             android:layout_width="match_parent"
@@ -138,6 +146,7 @@
                 android:textSize="16sp"/>
         </LinearLayout>
 
+        <!-- preview imagine selectata -->
         <ImageView
             android:id="@+id/ivPreview"
             android:layout_width="200dp"
@@ -148,6 +157,7 @@
             android:contentDescription="Preview of selected image"
             android:layout_marginBottom="16dp"/>
 
+        <!-- buton creare post -->
         <Button
             android:id="@+id/btnCreatePost"
             android:layout_width="match_parent"

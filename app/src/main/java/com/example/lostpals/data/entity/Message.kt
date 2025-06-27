@@ -5,7 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-
+// creare tabela "mesagges"
 @Entity(
     tableName = "messages", foreignKeys = [ForeignKey(
         entity = User::class,
@@ -16,7 +16,7 @@ import androidx.room.PrimaryKey
         entity = User::class,
         parentColumns = ["id"],
         childColumns = ["receiverId"],
-        onDelete = ForeignKey.CASCADE
+        onDelete = ForeignKey.CASCADE // daca un utilizator este sters => se sterg automat si mesajele pe care le-a trimis
     ), ForeignKey(
         entity = Post::class,
         parentColumns = ["id"],
@@ -25,6 +25,7 @@ import androidx.room.PrimaryKey
     )], indices = [Index("senderId"), Index("receiverId"), Index("postId"), Index("timestamp")]
 )
 data class Message(
+    // atributele clasei messages
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val postId: Long,
     val senderId: Long,

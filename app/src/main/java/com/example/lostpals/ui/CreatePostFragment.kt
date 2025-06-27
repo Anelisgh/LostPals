@@ -28,13 +28,14 @@ class CreatePostFragment : Fragment() {
     private lateinit var postViewModel: PostViewModel
     private var selectedImageUri: Uri? = null
 
+    // inregistreaza activitatea pentru a alege o poza
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            selectedImageUri = it
-            binding.ivPreview.setImageURI(it)
-            binding.ivPreview.visibility = View.VISIBLE
+            selectedImageUri = it  // salvam uri-ul
+            binding.ivPreview.setImageURI(it)  // punem poza in preview
+            binding.ivPreview.visibility = View.VISIBLE  // facem preview-ul vizibil
         }
     }
 
@@ -42,150 +43,126 @@ class CreatePostFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCreatePostBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding.root  // returnam view-ul fragmentului
     }
 
+    // dupa ce view-ul e gata
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inițializare SessionManager
-        sessionManager = SessionManager(requireContext())
+        sessionManager = SessionManager(requireContext())  // initializam sesiunea
+        postViewModel = ViewModelProvider(requireActivity())[PostViewModel::class.java]  // luam viewmodel
 
-        // Inițializare ViewModel
-        postViewModel = ViewModelProvider(requireActivity())[PostViewModel::class.java]
-
-        // Gestionare WindowInsets (adaptare la bara de sistem)
+        // ajusteaza marginile dupa inaltimea barelor de sistem
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom)
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(bars.left, 0, bars.right, bars.bottom)  // aplica padding
             insets
         }
 
-        // Inițializare componente UI
-        setupSpinners()
-        setupListeners()
-
-        // Observare rezultat creare post
-        observeCreatePostResult()
+        setupSpinners()  // pregatim dropdown-urile
+        setupListeners()  // setam ascultatorii de click
+        observeCreatePostResult()  // vedem daca postarea a fost salvata cu succes sau nu
     }
 
+    // e atent al schimbari in rezultat (success sau error)
     private fun observeCreatePostResult() {
         postViewModel.createPostResult.observe(viewLifecycleOwner) { resource ->
-            // Adaugă această verificare pentru null
             if (resource == null) return@observe
 
             when (resource) {
                 is Resource.Success -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Post created successfully!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    resetForm()
-                    postViewModel.clearCreatePostResult()
-                    // Mută navigația după clear
-                    findNavController().popBackStack()
+                    Toast.makeText(requireContext(), "Post created successfully!", Toast.LENGTH_SHORT).show()  // confirmare
+                    resetForm()  // golim formularul
+                    postViewModel.clearCreatePostResult()  // curatam starea
+                    findNavController().popBackStack()  // ne intoarcem
                 }
                 is Resource.Error -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Error: ${resource.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    postViewModel.clearCreatePostResult()
+                    Toast.makeText(requireContext(), "Error: ${resource.message}", Toast.LENGTH_SHORT).show()  // afisam eroare
+                    postViewModel.clearCreatePostResult()  // curatam starea
                 }
             }
         }
     }
 
+    // seteaza optiunile din spinners pentru locatie si tip obiect
     private fun setupSpinners() {
-        // Location spinner with "Select location" as first item
+        // spinner locatie
         val locations = listOf("Select location") + Location.entries.map { it.displayName }
         binding.spinnerLocation.adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            locations
-        ).apply {
-            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        }
+            requireContext(), android.R.layout.simple_spinner_item, locations
+        ).apply { setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
 
-        // ObjectType spinner
-        val objectTypes = ObjectType.entries.map { it.displayName }
+        // spinner de tip obiect
+        val types = ObjectType.entries.map { it.displayName }
         binding.spinnerObjectType.adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            objectTypes
-        ).apply {
-            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        }
+            requireContext(), android.R.layout.simple_spinner_item, types
+        ).apply { setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
     }
 
+    // seteaza click listeners pentru butoane
     private fun setupListeners() {
         binding.btnUploadPhoto.setOnClickListener {
-            pickImageLauncher.launch("image/*")
+            pickImageLauncher.launch("image/*")  // deschide galerie
         }
-
         binding.btnCreatePost.setOnClickListener {
-            createNewPost()
+            createNewPost()  // porneste crearea postarii
         }
     }
 
+    // colecteaza datele din formular si trimite postarea
     private fun createNewPost() {
-        val title = binding.etTitle.text.toString().trim()
-        val description = binding.etDescription.text.toString().trim()
+        val title = binding.etTitle.text.toString().trim()  // titlul
+        val desc = binding.etDescription.text.toString().trim()  // descrierea
 
-        if (title.isBlank() || description.isBlank()) {
-            Toast.makeText(
-                requireContext(),
-                "Title and description are required",
-                Toast.LENGTH_SHORT
-            ).show()
+        // validare
+        if (title.isBlank() || desc.isBlank()) {
+            Toast.makeText(requireContext(), "Title and description are required", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Verify location selection
         if (binding.spinnerLocation.selectedItemPosition == 0) {
-            Toast.makeText(
-                requireContext(),
-                "Please select a location",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireContext(), "Please select a location", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Get selected location (subtract 1 to account for the "Select location" item)
+        // obtinem obiectele selectate
         val location = Location.entries[binding.spinnerLocation.selectedItemPosition - 1]
-        val objectType = ObjectType.entries[binding.spinnerObjectType.selectedItemPosition]
+        val objType = ObjectType.entries[binding.spinnerObjectType.selectedItemPosition]
 
+        // convertim textul reward-ului in double
         val rewardText = binding.etReward.text.toString().trim()
-        val reward = rewardText.replace(',', '.').toDoubleOrNull()
-        val userId = sessionManager.getUserId()
+        val reward = rewardText.replace(',', '.').toDoubleOrNull()  // convertim la double
+        val userId = sessionManager.getUserId()  // id-ul user-ului curent
 
+        // construim dto-ul cu toate datele
         val postDto = PostDto(
             ownerId = userId,
             title = title,
-            description = description,
+            description = desc,
             location = location,
-            objectType = objectType,
+            objectType = objType,
             photoUri = selectedImageUri?.toString(),
             reward = reward
         )
 
-        postViewModel.createPost(postDto)
+        postViewModel.createPost(postDto)  // trimitem catre viewmodel
     }
 
+    // reseteaza tot formularul la starea initiala
     private fun resetForm() {
+        // curatam campurile
         binding.etTitle.text?.clear()
         binding.etDescription.text?.clear()
         binding.etReward.text?.clear()
-        binding.ivPreview.visibility = View.GONE
+        binding.ivPreview.visibility = View.GONE  // ascundem preview
         selectedImageUri = null
-        binding.spinnerLocation.setSelection(0) // Reset to "Select location"
-        binding.spinnerObjectType.setSelection(0)
+        binding.spinnerLocation.setSelection(0)  // reset spinner locatie
+        binding.spinnerObjectType.setSelection(0)  // reset spinner tip obiect
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _binding = null  // evitam memory leak
     }
 }

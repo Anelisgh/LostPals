@@ -15,19 +15,21 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOf
 
 class MessageRepository(
+    // primeste DAO-ul pentru accesul la bd
     private val messageDao: MessageDao,
-    private val session: SessionManager? = null
+    private val session: SessionManager? = null // session manager ofera ID-ul userului logat
 ) {
 
-    /*---------------------------  SEND  -------------------------------*/
+    // trimitere mesaj nou de la sender catre receiver
     suspend fun sendMessage(
         otherId: Long,
         text: String? = null,
         photoUri: String? = null
     ) {
+        // obtine id-ul expeditorului din sesiune
         val senderId = session?.getUserId()
             ?: error("SessionManager is not injected")
-
+        // creare obiect message
         val msg = Message(
             senderId   = senderId,
             receiverId = otherId,
@@ -39,52 +41,29 @@ class MessageRepository(
         messageDao.insert(msg)
     }
 
-    /** OLD: păstrat pentru compatibilitate – îl poţi şterge când nu-ţi mai trebuie. */
-    suspend fun sendMessage(dto: MessageDto) =
-        messageDao.insert(dto.toEntity())
+    // primeste in timp real toate mesajele legate de o anumita postare
+    private fun getMessagesForPostFlow(postId: Long): Flow<List<MessageDto>> =
+        messageDao.getMessagesForPost(postId)
+            .map { list -> list.map { it.toDto() } } // transforma in dto-uri
 
-    /*------------------------------------------------------------------*/
-    /*--------------------------  READ (Flow)  -------------------------*/
-    /*------------------------------------------------------------------*/
-
-    fun getMessagesForPostFlow(postId: Long): Flow<List<MessageDto>> =
-        messageDao.getMessagesForPost(postId)                // Flow<List<MessageEntity>>
-            .map { list -> list.map { it.toDto() } }
-
+    // primeste in timp real conversatia dintre userul curent si alt user
     fun getConversationFlow(otherId: Long): Flow<List<MessageDto>> {
+        // primeste id-ul utilizatorului curent din sesiune
         val meId = session?.getUserId()
             ?: error("SessionManager is not injected. Use the suspended overload.")
 
+        // returneaza conversatia si converteste mesajele in dto-uri
         return messageDao.getMessagesForConversation(meId, otherId)
             .map { list -> list.map { it.toDto() } }
     }
 
+    // primeste ultimele conversatii ale userului curent (inbox-ul)
     fun getInboxFlow(): Flow<List<InboxItemDto>> {
-        // Dacă user-ul nu e logat, întoarcem un flow gol
+        // daca user-ul nu e logat, retunreaza un flow gol
         val meId = session?.getUserId() ?: return flowOf(emptyList())
 
         return messageDao.getInboxConversations(meId)
             .map { list -> list.map { it.toInboxItemDto(meId) } }
-            .catch { emit(emptyList()) }          // ← prevenim crash-uri pe DB
+            .catch { emit(emptyList()) } // daca exista eroare la bd => returneaza lista goala
     }
-
-    /*--------------------  READ (semnăturile vechi)  ------------------*/
-
-    suspend fun getMessagesForPost(postId: Long): List<MessageDto> =
-        getMessagesForPostFlow(postId).first()
-
-    suspend fun getConversation(
-        meId: Long,
-        otherId: Long,
-    ): List<MessageDto> =
-        messageDao.getMessagesForConversation(meId, otherId)
-            .first()
-            .map { it.toDto() }
-
-    suspend fun getInbox(userId: Long): List<InboxItemDto> =
-        messageDao.getInboxConversations(userId)
-            .first()
-            .map { it.toInboxItemDto(userId) }
-
-
 }

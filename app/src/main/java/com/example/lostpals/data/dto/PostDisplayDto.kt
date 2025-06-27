@@ -3,7 +3,7 @@ package com.example.lostpals.data.dto
 import com.example.lostpals.data.entity.Location
 import com.example.lostpals.data.entity.ObjectType
 
-// homepage
+// dto folosit pe homepage pentru afisarea postarilor cu toate informatiile necesare
 data class PostDisplayDto(
     val id: Long,
     val ownerId: Long,

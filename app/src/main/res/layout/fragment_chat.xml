@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- ecran de chat cu toolbar, lista de mesaje si bara de input -->
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EAF2F4"
->
+    android:fitsSystemWindows="true">
+
+    <!-- toolbar chat cu buton back, avatar si username -->
     <LinearLayout
         android:id="@+id/chatToolbar"
         android:layout_width="0dp"
@@ -14,6 +18,7 @@
         android:orientation="horizontal"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +31,7 @@
             android:src="@drawable/back"
             android:contentDescription="@string/back_button_desc"
             android:background="@android:color/transparent"/>
-        <!-- imagine avatar pentru partenerul de chat -->
+        <!-- imagine avatar -->
         <ImageView
             android:id="@+id/avatarImage"
             android:layout_width="36dp"
@@ -43,7 +48,7 @@
             android:textSize="18sp"
             android:textStyle="bold"/>
     </LinearLayout>
-    <!-- text view pentru afisarea datei conversatiei -->
+    <!-- afisare data conversatie -->
     <TextView
         android:id="@+id/messageDate"
         android:layout_width="wrap_content"
@@ -74,11 +79,13 @@
         android:orientation="horizontal"
         android:background="@color/lp_bg"
         android:padding="15dp"
-
+        android:gravity="center_vertical"
         android:layout_marginBottom="21dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <ImageView
             android:id="@+id/attachButton"
@@ -93,11 +100,13 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_edittext"
             android:hint="@string/message_hint"
             android:paddingStart="8dp"
             android:textSize="16sp"
             android:inputType="text"/>
+
 
         <ImageView
             android:id="@+id/sendButton"

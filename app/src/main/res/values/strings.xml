@@ -49,9 +49,7 @@
     <string name="attach_button_desc">Attach</string>
     <string name="send_button_desc">Send</string>
     <string name="message_hint">Message</string>
-    <!-- format pentru numele persoanei cu care userul discuta -->
     <string name="chat_username_format">%1$s</string>
-    <!-- format pentru data conversației -->
     <string name="message_date_format">%1$s</string>
 
 <!--POST-->

@@ -24,126 +24,139 @@ import com.example.lostpals.ui.auth.LoginActivity
 import com.example.lostpals.util.SessionManager
 import com.example.lostpals.viewmodel.PostViewModel
 import com.example.lostpals.viewmodel.PostViewModelFactory
+import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var sessionManager: SessionManager
-    private lateinit var postViewModel: PostViewModel
-    private lateinit var postRepository: PostRepository
-    private lateinit var navController: NavController
 
-    // se executa cand se deschide aplicatia
+    // manager pentru login/logout
+    private lateinit var sessionManager: SessionManager
+    // date + logica postarii
+    private lateinit var postViewModel: PostViewModel
+    // acces la datele postarilor
+    private lateinit var postRepository: PostRepository
+    // controleaza schimbarea intre ecrane
+    private lateinit var navController: NavController
+    // buton pentru demo http
+    private lateinit var btnHttpDemo: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // verificam daca userul este logat
         sessionManager = SessionManager(this)
-//        sessionManager.logout()
-        // verificam daca user-ul e autentificat, daca nu, il redirectionam catre login
+
+        // daca userul nu e logat, du-te la login
         if (!sessionManager.isLoggedIn()) {
             redirectToLogin()
-            return
+            return // optim executia
         }
+
+        // incarcam layout-ul principal
         enableEdgeToEdge()
-        // setam layout-ul
         setContentView(R.layout.activity_main)
-        // adaugam un ascultator care va fi notificat de fiecare data cand se schimba dimensiunile spatiului ocupat de ferestrele de sistem (adica bare de status, nativatie) si se va seta padding-ul in consecinta
+        btnHttpDemo = findViewById(R.id.btnOpenHttpDemo)
+
+        // ajusteaza marginile ecranului
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(bars.left, bars.top, bars.right, 0)
             insets
         }
-        // initiam NavController-ul
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
+
+        // seteaza sistemul de navigare
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHost.navController
+
+        // bara de meniu
         val toolbarRoot = findViewById<View>(R.id.menu)
+
+        // asculta cand se schimba ecranul
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            toolbarRoot.visibility =
-                if (destination.id == R.id.chatFragment) View.GONE
-                else View.VISIBLE
-        }
-        // cream conexiunea la baza de date si cream repositories
-        val database = AppDatabase.getDatabase(this)
-        postRepository = PostRepository(
-            database.postDao(), database.userDao()
-        )
-        // cream factory-ul pentru viewmodel si viewmodel-ul pentru postari
-        val factory = PostViewModelFactory(postRepository)
-        postViewModel = ViewModelProvider(this, factory)[PostViewModel::class.java]
+            // ascunde meniul pe ecranul de chat
+            toolbarRoot.visibility = if (destination.id == R.id.chatFragment) View.GONE else View.VISIBLE
 
-        // butonul pentru crearea unei noi postari
+            // arata butonul http doar pe ecranul principal
+            btnHttpDemo.visibility = if (destination.id == R.id.homeFragment) View.VISIBLE else View.GONE
+        }
+
+        // navigheaza la demo http
+        btnHttpDemo.setOnClickListener {
+            navController.navigate(R.id.httpDemoFragment)
+        }
+
+        // initializeaza baza de date si view model
+        val db = AppDatabase.getDatabase(this)
+        postRepository = PostRepository(db.postDao(), db.userDao())
+        postViewModel = ViewModelProvider(this, PostViewModelFactory(postRepository))[PostViewModel::class.java]
+
+        // buton pentru creare postare noua
         findViewById<ImageView>(R.id.createPostIcon).setOnClickListener {
-            navController.navigate(R.id.action_homeFragment_to_createPostFragment)
+            navController.navigate(R.id.createPostFragment)
         }
 
-        // accesam pagina principala a aplicatiei prin apasarea logo-ului/numelui aplicatiei
+        // buton pentru intoarcere la ecranul principal
         findViewById<TextView>(R.id.appName).setOnClickListener {
             navController.popBackStack(R.id.homeFragment, false)
         }
 
-        // **navigare catre ProfileFragment la click pe accountIcon**
+        // buton pentru profilul utilizatorului
         findViewById<ImageView>(R.id.accountIcon).setOnClickListener {
             navController.navigate(R.id.profileFragment)
         }
+
+        // buton pentru mesaje
+        findViewById<ImageView>(R.id.Inbox).setOnClickListener {
+            navController.navigate(R.id.inboxFragment)
+        }
     }
 
-    // functia pentru afisarea dialogului de filtrare
+    // afiseaza popup-ul de filtrare
     internal fun showFilterDialog() {
-        // folosim binding pentru a accesa elementele din layout-ul dialog_filter
         val binding = DialogFilterBinding.inflate(layoutInflater)
-        // folosim dialog pentru a crea popup-ul
         val dialog = AlertDialog.Builder(this).setView(binding.root).create()
-        // populam spinner-ul cu valorile din location
-        val locationDisplayNames =
-            listOf("All categories") + Location.entries.map { it.displayName }
-        val locationAdapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_item, locationDisplayNames
-        )
-        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerLocation.adapter = locationAdapter
-        // populam spinner-ul cu valorile din objectType
-        val objectTypeDisplayNames =
-            listOf("All categories") + ObjectType.entries.map { it.displayName }
-        val objectTypeAdapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_item, objectTypeDisplayNames
-        )
-        objectTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerObjectType.adapter = objectTypeAdapter
 
-        // daca exista deja un filtru aplicat il afisam pe el in spinner
+        // liste pentru selectie locatii
+        val locationDisplayNames = listOf("All categories") + Location.entries.map { it.displayName }
+        binding.spinnerLocation.adapter = ArrayAdapter(
+            this, android.R.layout.simple_spinner_item, locationDisplayNames
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        // liste pentru selectie tipuri obiecte
+        val objectTypeDisplayNames = listOf("All categories") + ObjectType.entries.map { it.displayName }
+        binding.spinnerObjectType.adapter = ArrayAdapter(
+            this, android.R.layout.simple_spinner_item, objectTypeDisplayNames
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        // preincarca filtrele existente
         postViewModel.filter.value?.let { currentFilter ->
-            currentFilter.location?.let { selectedLocation ->
-                val position = locationDisplayNames.indexOf(selectedLocation.displayName)
-                if (position >= 0) {
-                    binding.spinnerLocation.setSelection(position)
-                }
+            currentFilter.location?.let {
+                binding.spinnerLocation.setSelection(locationDisplayNames.indexOf(it.displayName).coerceAtLeast(0))
             }
-            currentFilter.objectType?.let { selectedType ->
-                val position = objectTypeDisplayNames.indexOf(selectedType.displayName)
-                if (position >= 0) {
-                    binding.spinnerObjectType.setSelection(position)
-                }
+            currentFilter.objectType?.let {
+                binding.spinnerObjectType.setSelection(objectTypeDisplayNames.indexOf(it.displayName).coerceAtLeast(0))
             }
         }
 
-        // butonul apply, daca nu are pozitia 0, adica "all categories", atunci se aplica filtrul respectiv
+        // buton apply -> aplica filtrele selectate
         binding.btnApply.setOnClickListener {
-            val selectedLocation = if (binding.spinnerLocation.selectedItemPosition > 0) {
-                val selectedName = binding.spinnerLocation.selectedItem.toString()
-                Location.entries.find { it.displayName == selectedName }
-            } else null
+            val selectedLocation = binding.spinnerLocation.selectedItemPosition.takeIf { it > 0 }
+                ?.let { Location.entries[it - 1] }
 
-            val selectedObjectType = if (binding.spinnerObjectType.selectedItemPosition > 0) {
-                val selectedName = binding.spinnerObjectType.selectedItem.toString()
-                ObjectType.entries.find { it.displayName == selectedName }
-            } else null
+            val selectedObjectType = binding.spinnerObjectType.selectedItemPosition.takeIf { it > 0 }
+                ?.let { ObjectType.entries[it - 1] }
 
-            if (selectedLocation == null && selectedObjectType == null) {
-                postViewModel.setFilter(null)
-            } else {
-                postViewModel.setFilter(PostFilterDto(selectedLocation, selectedObjectType))
-            }
+            postViewModel.setFilter(
+                if (selectedLocation == null && selectedObjectType == null) null
+                else PostFilterDto(selectedLocation, selectedObjectType)
+            )
             dialog.dismiss()
         }
 
-        // butonul clear
+        // buton clear -> reseteaza filtrele
         binding.btnClear.setOnClickListener {
             postViewModel.setFilter(null)
             dialog.dismiss()
@@ -152,6 +165,7 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    // redirectioneaza catre login
     private fun redirectToLogin() {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()

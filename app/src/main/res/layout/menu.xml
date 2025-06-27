@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- bara de navigare -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
@@ -17,14 +19,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        <!--Am taiat logo-ul de langa text, se vedea prea plin-->
-        <!--        <ImageView-->
-        <!--            android:id="@+id/logo"-->
-        <!--            android:layout_width="50dp"-->
-        <!--            android:layout_height="50dp"-->
-        <!--            android:src="@drawable/logo"-->
-        <!--            android:contentDescription="Logo"/>-->
 
+        <!-- titlul aplicatiei -->
         <TextView
             android:id="@+id/appName"
             android:layout_width="wrap_content"
@@ -33,9 +29,10 @@
             android:text="@string/app_name"
             android:textColor="@color/black"
             android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
     </LinearLayout>
 
+    <!-- butoane creare postare, inbox si profil -->
     <LinearLayout
         android:id="@+id/rightSection"
         android:layout_width="wrap_content"
@@ -47,55 +44,61 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- buton creare post -->
         <ImageView
             android:id="@+id/createPostIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="@string/create_post"
-            android:src="@drawable/create_post" />
+            android:src="@drawable/create_post"/>
 
+        <!-- buton inbox -->
         <ImageView
             android:id="@+id/Inbox"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="@string/inbox"
-            android:src="@drawable/inbox" />
+            android:src="@drawable/inbox"/>
 
+        <!-- buton profil/account -->
         <ImageView
             android:id="@+id/accountIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:contentDescription="@string/account"
-            android:src="@drawable/account" />
+            android:src="@drawable/account"/>
     </LinearLayout>
 
+    <!-- aliniere pe orizontala -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
+        app:layout_constraintGuide_begin="20dp"/>
 
+    <!-- aliniere pe verticala -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp" />
+        app:layout_constraintGuide_begin="20dp"/>
 
+    <!-- barrier pentru aliniere dinamica -->
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:barrierDirection="left" />
+        app:barrierDirection="left"/>
 
+    <!-- guideline pentru spatiere -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
-
+        app:layout_constraintGuide_begin="20dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

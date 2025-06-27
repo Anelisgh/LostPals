@@ -5,14 +5,16 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+// creeaza tabela "posts"
 @Entity(
     tableName = "posts", foreignKeys = [ForeignKey(
         entity = User::class,
         parentColumns = ["id"],
         childColumns = ["ownerId"],
-        onDelete = ForeignKey.CASCADE
+        onDelete = ForeignKey.CASCADE // daca userul este sters, se sterg si postarile
     )], indices = [Index("ownerId"), Index("postType"), Index("location"), Index("timestamp")]
 )
+// atributele entitatii
 data class Post(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val ownerId: Long,

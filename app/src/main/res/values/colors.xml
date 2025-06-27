@@ -12,10 +12,10 @@
     <color name="stroke">#E0E0E0</color>
     <color name="error">#800020</color>
 
-    <color name="lp_primary">#C7D9DD</color>          <!-- pastel teal, header + butoane -->
-    <color name="lp_primary_dark">#89A3A6</color>     <!-- pressed state -->
-    <color name="lp_bg">#F3F8F9</color>               <!-- background -->
-    <color name="lp_text">#001722</color>             <!-- aproape negru -->
-    <color name="lp_red_start">#B22222</color>        <!-- gradient delete -->
+    <color name="lp_primary">#C7D9DD</color>
+    <color name="lp_primary_dark">#89A3A6</color>
+    <color name="lp_bg">#F3F8F9</color>
+    <color name="lp_text">#001722</color>
+    <color name="lp_red_start">#B22222</color>
     <color name="lp_red_end">#FFCDD2</color>
 </resources>

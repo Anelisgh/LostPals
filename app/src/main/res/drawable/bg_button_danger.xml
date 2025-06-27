@@ -2,18 +2,18 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <!-- culoarea solidă de fundal (un roz pal) -->
+    <!-- culoarea solida de fundal-->
     <solid android:color="#FCE4EC"/>
 
-    <!-- contur roșu subțire -->
+    <!-- contur rosu subtire -->
     <stroke
         android:width="2dp"
         android:color="#D32F2F"/>
 
-    <!-- colțuri rotunjite -->
+    <!-- colturi rotunjite -->
     <corners android:radius="20dp"/>
 
-    <!-- (opțional) padding intern -->
+    <!-- padding -->
     <padding
         android:left="12dp"
         android:top="8dp"

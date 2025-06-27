@@ -1,5 +1,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- selector pentru butonul delete: schimba background la apasare -->
+    <!-- cand butonul e apasat, foloseste drawable-ul pentru pressed -->
     <item android:state_pressed="true"
-        android:drawable="@drawable/bg_button_delete_pressed"/>
-    <item android:drawable="@drawable/bg_button_delete"/>
-</selector>
+         android:drawable="@drawable/bg_button_delete_pressed"/>
+    <!-- stare default a butonului -->
+     <item android:drawable="@drawable/bg_button_delete"/>
+ </selector>

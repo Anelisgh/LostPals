@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- layout profil utilizator cu avatar, modificare parola/email si delete account -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/lp_bg">
 
-    <!-- Toolbarul personalizat -->
+    <!-- include toolbar personalizat pentru profil -->
     <include
         android:id="@+id/profileToolbar"
         layout="@layout/menu_profile"
@@ -14,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Conținutul scrollabil sub toolbar -->
+    <!-- scroll view pentru continutul profilului -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollContent"
         android:layout_width="0dp"
@@ -33,17 +34,20 @@
             android:gravity="center_horizontal"
             android:padding="24dp">
 
-            <!-- AVATAR -->
+            <!-- avatar circular cu bordura -->
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgAvatar"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
                 android:src="@drawable/avatar"
                 app:civ_border_width="2dp"
+                android:contentDescription="@string/avatar_desc"
                 app:civ_border_color="@color/lp_primary_dark"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"/>
 
-            <!-- USERNAME -->
+            <!-- afisare username -->
             <TextView
                 android:id="@+id/tvUsername"
                 android:layout_width="wrap_content"
@@ -54,7 +58,7 @@
                 android:layout_marginTop="12dp"
                 android:fontFamily="sans-serif-medium"/>
 
-            <!-- CARD PAROLĂ -->
+            <!-- card pentru schimbarea parolei -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,6 +73,7 @@
                     android:orientation="vertical"
                     android:padding="24dp">
 
+                    <!-- nota pentru schimbarea parolei -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -77,6 +82,7 @@
                         android:textSize="14sp"
                         android:layout_marginBottom="12dp"/>
 
+                    <!-- camp pentru parola curenta -->
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:hint="@string/current_password"
@@ -90,6 +96,7 @@
                             android:layout_height="wrap_content"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <!-- camp pentru noua parola (optional) -->
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:hint="@string/new_password_optional"
@@ -104,6 +111,7 @@
                             android:layout_height="wrap_content"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <!-- buton pentru salvarea parolei noi -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSavePassword"
                         android:layout_width="wrap_content"
@@ -118,7 +126,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- CARD E-MAIL -->
+            <!-- card pentru schimbarea email-ului -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -134,6 +142,7 @@
                     android:padding="24dp"
                     android:paddingBottom="48dp">
 
+                    <!-- nota pentru schimbarea email-ului -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -142,6 +151,7 @@
                         android:textSize="14sp"
                         android:layout_marginBottom="12dp"/>
 
+                    <!-- camp pentru email curent -->
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:hint="@string/current_email"
@@ -155,6 +165,7 @@
                             android:layout_height="wrap_content"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <!-- camp pentru noul email (optional) -->
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:hint="@string/new_email_optional"
@@ -169,6 +180,7 @@
                             android:layout_height="wrap_content"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <!-- buton pentru salvarea noului email -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSaveEmail"
                         android:layout_width="wrap_content"
@@ -183,18 +195,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- LOGOUT -->
-<!--            <TextView-->
-<!--                android:id="@+id/btnLogout"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/logout"-->
-<!--                android:textColor="@color/lp_primary_dark"-->
-<!--                android:textSize="16sp"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:fontFamily="sans-serif-medium"/>-->
-
-            <!-- DELETE ACCOUNT -->
+            <!-- buton pentru stergerea contului -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDelete"
                 android:layout_width="wrap_content"

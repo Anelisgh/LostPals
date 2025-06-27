@@ -1,6 +1,7 @@
 package com.example.lostpals.data.dto
 
-// inbox -> lista cu mesaje, potrivit pentru UI
+// reprezinta un rand din lista de inbox
+// cu datele cele mai recente dintr-o conversatie
 data class InboxItemDto(
     val conversationUserId: Long,
     val conversationUsername: String,

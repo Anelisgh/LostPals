@@ -66,5 +66,8 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.circleimageview)
     implementation(libs.fragment.ktx)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.conv.gson)
+    implementation(libs.okhttp.logging)
 
 }

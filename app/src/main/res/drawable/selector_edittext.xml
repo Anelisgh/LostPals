@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Pentru create page input-urile-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--Focalizat    -->
+    <!--cand campul este focusat -->
     <item android:state_focused="true">
         <shape android:shape="rectangle">
             <solid android:color="@color/white" />
@@ -9,7 +9,7 @@
             <corners android:radius="12dp" />
         </shape>
     </item>
-    <!--Nefocalizat-->
+    <!-- cand campul nu este focusat -->
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@color/white" />

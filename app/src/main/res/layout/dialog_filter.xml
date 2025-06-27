@@ -1,68 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- dialog pentru filtrarea posturilor dupa locatie si categorie -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
+    <!-- eticheta camp locatie -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Location"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:layout_marginBottom="8dp"
-        android:textColor="@android:color/black"/>
+        android:layout_marginBottom="8dp"/>
 
+    <!-- spinner pentru selectie locatie -->
     <Spinner
         android:id="@+id/spinnerLocation"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:background="@drawable/spinner_background" />
+        android:background="@drawable/spinner_background"
+        android:layout_marginBottom="16dp"/>
 
+    <!-- eticheta camp categorie obiect -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Object Category"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:layout_marginBottom="8dp"
-        android:textColor="@android:color/black"/>
+        android:layout_marginBottom="8dp"/>
 
+    <!-- spinner pentru selectie categorie obiect -->
     <Spinner
         android:id="@+id/spinnerObjectType"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginBottom="24dp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:background="@drawable/spinner_background" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@drawable/spinner_background"
+        android:layout_marginBottom="24dp"/>
 
+    <!-- butoane pentru stergere si aplicare filtru -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- buton stergere filtre -->
         <Button
             android:id="@+id/btnClear"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:text="Clear Filters"
-            android:layout_marginEnd="8dp"
             android:backgroundTint="@color/grey"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:layout_marginEnd="8dp"/>
 
+        <!-- buton aplicare filtru -->
         <Button
             android:id="@+id/btnApply"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:text="Apply"
             android:backgroundTint="@color/primary"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"/>
     </LinearLayout>
 </LinearLayout>

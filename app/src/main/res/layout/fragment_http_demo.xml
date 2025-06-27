@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/demoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- ====== HTTP DE LA SERVER ====== -->
+        <Button
+            android:id="@+id/btnPosts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GET Users (API)" />
+
+        <!-- ====== OPERAȚII LOCALE (ROOM) ====== -->
+
+        <EditText
+            android:id="@+id/etUserId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:textColor="#FF000000"
+            android:hint="User id"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/btnGetLocal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GET Users (LOCAL)" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DELETE User" />
+
+        <!-- ====== CLEAR ====== -->
+        <Button
+            android:id="@+id/btnClear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear" />
+
+        <!-- Rezultat -->
+        <TextView
+            android:id="@+id/txtResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:textColor="#FF000000"
+            android:textSize="16sp" />
+    </LinearLayout>
+</ScrollView>

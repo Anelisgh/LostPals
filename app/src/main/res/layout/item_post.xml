@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- card cu detalii postare: profil, titlu, descriere si imagine -->
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,12 +10,14 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
+    <!-- container vertical pentru continutul cardului -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="8dp">
 
+        <!-- header: profil user, timestamp si buton chat -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,6 +25,7 @@
             android:gravity="center_vertical"
             android:padding="8dp">
 
+            <!-- imagine profil user -->
             <ImageView
                 android:id="@+id/profileImage"
                 android:layout_width="40dp"
@@ -29,6 +34,7 @@
                 android:background="@drawable/circle_background"
                 app:layout_constraintDimensionRatio="1:1"/>
 
+            <!-- nume user -->
             <TextView
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
@@ -37,29 +43,35 @@
                 android:textStyle="bold"
                 android:layout_marginStart="12dp"/>
 
+            <!-- spatiu flexibil pentru pozitionare -->
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
-            <!-- Data postării -->
+
+            <!-- data postarii -->
             <TextView
                 android:id="@+id/timestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
+                android:layout_marginRight="10dp"
                 android:textColor="@color/grey"/>
 
+            <!-- buton chat -->
             <ImageButton
                 android:id="@+id/btnChat"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="8dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
                 android:src="@drawable/chat"
-            android:contentDescription="@string/open_chat"/>
+                android:contentDescription="@string/open_chat"
+                android:scaleType="centerInside"
+                />
 
         </LinearLayout>
-        <!-- Titlu și descriere -->
+        <!-- titlu postare -->
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
@@ -68,6 +80,8 @@
             android:textStyle="bold"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"/>
+
+        <!-- reward -->
         <TextView
             android:id="@+id/reward"
             android:layout_width="match_parent"
@@ -78,6 +92,8 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingBottom="8dp"/>
+
+        <!-- locatie postare -->
         <TextView
             android:id="@+id/location"
             android:layout_width="wrap_content"
@@ -86,6 +102,8 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingBottom="8dp"/>
+
+        <!-- descriere postare -->
         <TextView
             android:id="@+id/description"
             android:layout_width="match_parent"
@@ -94,6 +112,8 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingBottom="8dp"/>
+
+        <!-- imagine atasata postarii -->
         <ImageView
             android:id="@+id/postImage"
             android:layout_width="match_parent"

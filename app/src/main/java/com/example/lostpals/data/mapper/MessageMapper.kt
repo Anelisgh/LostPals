@@ -5,6 +5,9 @@ import com.example.lostpals.data.dto.InboxItemDto
 import com.example.lostpals.data.dto.MessageDto
 import com.example.lostpals.data.entity.Message
 
+// functii de mapare intre obiecte DTO si entitati Room
+
+// MessageDto => Message
 fun MessageDto.toEntity() = Message(
     id = id,
     postId = postId,
@@ -25,6 +28,7 @@ fun Message.toDto() = MessageDto(
     timestamp = timestamp
 )
 
+// creeaza un obiect InboxItemDto pe baza ultimei conversatii
 fun InboxConversationData.toInboxItemDto(forUserId: Long) = InboxItemDto(
     conversationUserId = if (senderId == forUserId) receiverId else senderId,
     conversationUsername = username,

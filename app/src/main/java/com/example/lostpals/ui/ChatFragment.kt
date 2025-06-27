@@ -28,53 +28,55 @@ import kotlinx.coroutines.flow.collectLatest
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
+// afiseaza ecranul de chat
 class ChatFragment : Fragment() {
-
-    /* ---------- view refs ---------- */
     private lateinit var rv: RecyclerView
     private lateinit var input: EditText
     private lateinit var btnSend: ImageView
     private lateinit var tvUser: TextView
     private lateinit var tvDate: TextView
 
-    /* ---------- infra ---------- */
+    // viewmodel care tine legatura cu baza de date si logica
     private val viewModel: MessageViewModel by viewModels()
     private val messages = mutableListOf<Message>()
     private lateinit var adapter: MessageAdapter
 
+    // id-ul celuilalt utilizator cu care discuti
     private var otherId: Long = -1
+    // id-ul postarii de la care s-a pornit discutia
     private var postId: Long = -1
 
-    /* ---------- pick image ---------- */
+    // deschide galeria ca sa alegi o poza
     private val pickImageLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
             uri?.let { onImagePicked(it) }
         }
 
+    // cere permisiunea de citit din stocare
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-            if (granted) pickImageLauncher.launch(arrayOf("image/*"))
+            if (granted) pickImageLauncher.launch(arrayOf("image/*"))  // daca primeste permisiunea, deschide galeria
         }
 
-    /* ---------- lifecycle ---------- */
+    // initializare interfata
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View = inflater.inflate(R.layout.fragment_chat, container, false)
 
+    // dupa ce layout-ul e gata legam tot
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /* ----- view bindings ----- */
+        // legam view-urile din xml
         rv      = view.findViewById(R.id.recyclerViewMessages)
         input   = view.findViewById(R.id.messageInput)
         btnSend = view.findViewById(R.id.sendButton)
         tvUser  = view.findViewById(R.id.username)
         tvDate  = view.findViewById(R.id.messageDate)
 
-        /* ----- attach image button ----- */
+        // buton sa atasezi poza
         view.findViewById<ImageView>(R.id.attachButton).setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 pickImageLauncher.launch(arrayOf("image/*"))
@@ -83,38 +85,40 @@ class ChatFragment : Fragment() {
                 if (ContextCompat.checkSelfPermission(requireContext(), perm) ==
                     android.content.pm.PackageManager.PERMISSION_GRANTED
                 ) {
-                    pickImageLauncher.launch(arrayOf("image/*"))
+                    pickImageLauncher.launch(arrayOf("image/*"))  // ai deja permisiunea
                 } else {
-                    requestPermissionLauncher.launch(perm)
+                    requestPermissionLauncher.launch(perm)  // cere permisiunea
                 }
             }
         }
 
-        /* ----- back arrow ----- */
+        // butonul inapoi (back)
         view.findViewById<ImageView>(R.id.backButton).setOnClickListener {
             findNavController().popBackStack()
         }
 
-        /* ----- args ----- */
+        // luam date din bundle
         val args   = ChatFragmentArgs.fromBundle(requireArguments())
         otherId    = args.otherId
         val partner = args.partnerName
 
-        tvUser.text = partner
+        tvUser.text = partner  // afisam numele
+        // data
         tvDate.text = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date())
 
-        /* ----- recycler ----- */
+        // pregatim adapterul si recyclerview-ul
         adapter = MessageAdapter(messages, currentUserId = viewModel.session.getUserId())
-        rv.layoutManager = LinearLayoutManager(requireContext()).apply { stackFromEnd = true }
+        rv.layoutManager = LinearLayoutManager(requireContext()).apply { stackFromEnd = true }  // ultimele mesaje
         rv.adapter = adapter
 
-        /* ----- flows ----- */
-        viewModel.resetConversation()
-        viewModel.loadConversation(otherId)
+        // incarcam conversatia din viewmodel
+        viewModel.resetConversation()  // stergem ce era vechi
+        viewModel.loadConversation(otherId)  // aducem mesajele
 
+        // asteptam schimbari in lista de mesaje
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.conversation.collectLatest { list ->
-                messages.clear()
+                messages.clear()  // golim lista
                 messages.addAll(list.map {
                     Message(
                         id         = it.id,
@@ -126,33 +130,33 @@ class ChatFragment : Fragment() {
                         timestamp  = it.timestamp
                     )
                 })
-                adapter.notifyDataSetChanged()
-                rv.scrollToPosition(messages.size - 1)
+                adapter.notifyDataSetChanged()  // transmitem adapterului ca s-au schimbat datele
+                rv.scrollToPosition(messages.size - 1)  // mergem la ultimul mesaj
             }
         }
 
-        /* ----- send text ----- */
+        // cand apasam send
         btnSend.setOnClickListener {
-            val txt = input.text.toString().trim()
+            val txt = input.text.toString().trim()  // luam textul
             if (txt.isNotEmpty()) {
-                viewModel.sendMessage(otherId, txt)
-                input.text.clear()
+                viewModel.sendMessage(otherId, txt)  // trimitem mesaj
+                input.text.clear()  // golim campul
             }
         }
-
         input.requestFocus()
     }
 
-    /* ---------- helpers ---------- */
+    // cand alegem poza, pastram permisiunea si o trimitem
     private fun onImagePicked(uri: Uri) {
-        // păstrăm permisiunea (necesar pentru uri persistente)
         try {
+            // pastreaza acces pe termen lung la uri
             requireContext().contentResolver.takePersistableUriPermission(
                 uri,
                 Intent.FLAG_GRANT_READ_URI_PERMISSION
             )
-        } catch (_: SecurityException) { /* ignoră pe Android 13+ */ }
+        } catch (_: SecurityException) { }
 
+        // trimite poza ca mesaj
         viewModel.sendMessage(
             otherId = otherId,
             text    = null,

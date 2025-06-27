@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- layout pentru ecranul de login cu formular si link catre inregistrare -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,6 +10,7 @@
     android:background="@color/background"
     android:fitsSystemWindows="true">
 
+    <!-- scrollview pentru continut care poate depasi inaltimea ecranului -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollRoot"
         android:layout_width="0dp"
@@ -60,7 +62,7 @@
 
             </LinearLayout>
 
-            <!-- Login Card -->
+            <!-- card pentru input-uri de login (username, password) -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,7 +77,7 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- Login Title -->
+                    <!-- titlul sectiunii de login -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -86,7 +88,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="20dp"/>
 
-                    <!-- Email/Username Field -->
+                    <!-- camp pentru username/email -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -106,6 +108,7 @@
                         android:textSize="14sp"
                         android:layout_marginBottom="20dp"/>
 
+                    <!-- camp pentru parola -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -124,7 +127,7 @@
                         android:textSize="14sp"
                         android:layout_marginBottom="20dp"/>
 
-                    <!-- Login Button -->
+                    <!-- buton de login -->
                     <Button
                         android:id="@+id/btnLogin"
                         android:layout_width="match_parent"
@@ -136,7 +139,7 @@
                         android:elevation="4dp"
                         app:cornerRadius="12dp"/>
 
-                    <!-- Register Link -->
+                    <!-- link catre ecranul de inregistrare -->
                     <TextView
                         android:id="@+id/tvRegisterLink"
                         android:layout_width="wrap_content"
@@ -151,8 +154,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Bottom spacing -->
-            <View
+            <!-- spatiu gol pentru marginile de jos -->            <View
                 android:layout_width="match_parent"
                 android:layout_height="20dp" />
         </LinearLayout>

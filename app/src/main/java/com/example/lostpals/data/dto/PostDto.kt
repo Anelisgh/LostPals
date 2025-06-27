@@ -4,7 +4,7 @@ import com.example.lostpals.data.entity.Location
 import com.example.lostpals.data.entity.ObjectType
 import com.example.lostpals.data.entity.PostType
 
-// creare, editare post
+// creare, editare postare
 data class PostDto(
     val id: Long = 0,
     val ownerId: Long,

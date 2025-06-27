@@ -10,20 +10,20 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MessageDao {
 
+    // insereaza/ salveaza un mesaj nou in baza de date (in tabela messages)
     @Insert
     suspend fun insert(message: Message): Long
 
-    /*-----------------------------  POST -----------------------------*/
-
+    // obtine toate mesajele dintr-un anumit post
+    // ordonate dupa timp
     @Query("SELECT * FROM messages WHERE postId = :postId ORDER BY timestamp")
-    fun getMessagesForPost(postId: Long): Flow<List<Message>>
+    fun getMessagesForPost(postId: Long): Flow<List<Message>> // returnaeaza un Flow => Ui se actualizeaza automat daca apare un mesaj nou in bd
 
-    /*--------------------------  CONVERSATION ------------------------*/
-
+    // obtine mesajele intre doi utilizatori
     @Query(
         """
         SELECT * FROM messages
-        WHERE (senderId = :meId AND receiverId = :otherId)
+        WHERE (senderId = :meId AND receiverId = :otherId) -- verifica daca meId este sender si otherId este receiver sau invers
             OR (senderId = :otherId AND receiverId = :meId)
         ORDER BY timestamp
         """
@@ -31,10 +31,10 @@ interface MessageDao {
     fun getMessagesForConversation(
         meId: Long,
         otherId: Long,
-    ): Flow<List<Message>>
+    ): Flow<List<Message>> // Flow => Ui se actualizeaza automat la mesajele noi
 
-    /*-----------------------------  INBOX ----------------------------*/
-
+    // obtine inboxul unui utilizator (ultimele conversatii)
+    // returneaza ultimul mesaj din fiecare conversatie
     @Query(
         """
     SELECT m.*, 

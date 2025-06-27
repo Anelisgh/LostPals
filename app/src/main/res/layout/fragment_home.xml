@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- ecran principal cu lista posturilor si buton filtrare -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,6 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
+    <!-- lista posturilor afisata in RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPosts"
         android:layout_width="match_parent"
@@ -14,6 +17,7 @@
         android:clipToPadding="false"
         android:paddingBottom="72dp"/>
 
+    <!-- floating button pentru deschiderea dialogului de filtrare -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/filterIcon"
         android:layout_width="wrap_content"
@@ -28,6 +32,7 @@
         app:borderWidth="0dp"
         app:elevation="8dp"/>
 
+    <!-- text pentru stare vida-->
     <TextView
         android:id="@+id/emptyState"
         android:layout_width="wrap_content"
@@ -36,5 +41,15 @@
         android:textSize="18sp"
         android:visibility="gone"
         android:layout_gravity="center"/>
+
+    <!-- buton de debug HTTP Demo -->
+    <Button
+        android:id="@+id/btnHttpDemo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="16dp"
+        android:text="HTTP Demo" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

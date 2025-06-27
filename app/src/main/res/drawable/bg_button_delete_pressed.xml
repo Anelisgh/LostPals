@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- gradient de la rosu inchid catre rosu deschis -->
     <gradient
         android:startColor="#C62828"
     android:endColor="#FF8A80"
     android:angle="270"/>
+
+    <!-- colturi rotunjite -->
     <corners android:radius="24dp"/>
 </shape>
