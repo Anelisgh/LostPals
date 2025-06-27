@@ -1,12 +1,10 @@
-import org.gradle.kotlin.dsl.implementation
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp) // pentru Room
-    id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.ksp)          // pentru Room
+    alias(libs.plugins.safeargs)
 }
-
 android {
     namespace = "com.example.lostpals"
     compileSdk = 35
