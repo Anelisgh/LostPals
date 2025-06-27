@@ -9,6 +9,7 @@ object RetrofitClient {
 
     // adresa url pentru cererile HTTP
     private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+    // serviciu gratuit de test care ofera date fictive
 
     val api: DemoApiService by lazy {
         Retrofit.Builder()

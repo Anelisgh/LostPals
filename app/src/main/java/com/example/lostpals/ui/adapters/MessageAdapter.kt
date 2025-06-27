@@ -1,4 +1,4 @@
-package com.example.lostpals.data.adapter
+package com.example.lostpals.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +55,7 @@ class MessageAdapter(
 
         // lipim mesajul pe balonul vizual potrivit
         when (holder) {
-            is SentViewHolder     -> holder.bind(msg) // balon alb
+            is SentViewHolder -> holder.bind(msg) // balon alb
             is ReceivedViewHolder -> holder.bind(msg) // balon albastru
         }
 

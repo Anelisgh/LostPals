@@ -80,7 +80,6 @@
         android:background="@color/lp_bg"
         android:padding="15dp"
         android:gravity="center_vertical"
-        android:layout_marginBottom="21dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

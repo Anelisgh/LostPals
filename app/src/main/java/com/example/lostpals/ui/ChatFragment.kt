@@ -19,9 +19,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.lostpals.R
-import com.example.lostpals.data.adapter.MessageAdapter
+import com.example.lostpals.ui.adapters.MessageAdapter
 import com.example.lostpals.data.entity.Message
 import com.example.lostpals.viewmodel.MessageViewModel
 import kotlinx.coroutines.flow.collectLatest
